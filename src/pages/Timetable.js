@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../Components/Header'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const Timetable = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Handlers
+  const handleEdit = () => {
+    setIsEditing(true)
+  }
+
+  const handleCancel = () => {
+    setIsEditing(false)
+  }
+
+  const handleSave = () => {
+    setIsEditing(false)
+  }
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
@@ -27,6 +41,39 @@ const Timetable = () => {
         <h1 className="absolute left-1/2 -translate-x-1/2 text-xl font-semibold underline">
           Weekly Timetable
         </h1>
+
+
+        {/* Edit / Cancel / Save Buttons */}
+        <div className="ml-auto flex gap-2">
+          {!isEditing && (
+            <button
+              onClick={handleEdit}
+              className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Edit
+            </button>
+          )}
+
+          {isEditing && (
+            <>
+            
+              <button
+                onClick={handleCancel}
+                className="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+              >
+                Save
+              </button>
+
+            </>
+          )}
+        </div>
+
       </div>
 
       {/* TABLE */}
