@@ -8,14 +8,17 @@ const Timetable = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
-  const [timetable, setTimetable] = useState(
-    days.map((day) => {
-      const numPeriods = day === "Saturday" ? 4 : periods;
-      return Array(numPeriods)
-        .fill(0)
-        .map(() => ({ subject: "", room: "" }));
-    }),
-  );
+const [timetable, setTimetable] = useState(() => {
+  // check if saved timetable exists in localStorage
+  const saved = localStorage.getItem("timetable");
+  if (saved) return JSON.parse(saved);
+  // else use default timetable
+  return days.map((day) => {
+    const numPeriods = day === "Saturday" ? 4 : periods;
+    return Array(numPeriods).fill(0).map(() => ({ subject: "", room: "" }));
+  });
+});
+
 
   const [tempTimetable, setTempTimetable] = useState([]);
 
@@ -28,6 +31,7 @@ const Timetable = () => {
 
   const handleSave = () => {
     setTimetable(tempTimetable);
+     localStorage.setItem("timetable", JSON.stringify(tempTimetable));
     setIsEditing(false);
   };
 
