@@ -3,27 +3,23 @@ import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { days, periodTimes, periods } from "../constants/timetable";
-import Swal from "sweetalert2";
 
-const Timetable = ({setHasTimetable}) => {
+const Timetable = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
   const [timetable, setTimetable] = useState(() => {
-    // check if saved timetable exists in localStorage
     const saved = localStorage.getItem("timetable");
     if (saved) return JSON.parse(saved);
-    // else use default timetable
     return days.map((day) => {
       const numPeriods = day === "Saturday" ? 4 : periods;
       return Array(numPeriods).fill(0).map(() => ({ subject: "", room: "" }));
     });
   });
 
-
   const [tempTimetable, setTempTimetable] = useState([]);
 
-    const isTimetableEmpty = (temp) => {
+  const isTimetableEmpty = (temp) => {
     return temp.every((day) =>
       day.every((period) => period.subject === "" && period.room === ""),
     );
@@ -40,7 +36,6 @@ const Timetable = ({setHasTimetable}) => {
     setTimetable(tempTimetable);
     localStorage.setItem("timetable", JSON.stringify(tempTimetable));
     setIsEditing(false);
-    setHasTimetable(!isTimetableEmpty(tempTimetable));
   };
 
   const handleCellChange = (dayIndex, periodIndex, field, value) => {
@@ -61,36 +56,19 @@ const Timetable = ({setHasTimetable}) => {
         .map(() => ({ subject: "", room: "" }));
     });
 
-    setTempTimetable(clearedTimetable); // update the temporary timetable
+    setTempTimetable(clearedTimetable);
   };
 
   const handleClearClick = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This will clear the entire timetable!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, clear it!",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        handleClear();
-      }
-    });
+    if (window.confirm("This will clear the entire timetable. Continue?")) {
+      handleClear();
+    }
   };
-
-
-  const headerHeight = 200;
-  const breakRowHeight = 40;
-  const rowHeight = `calc(((100vh - ${headerHeight}px - ${breakRowHeight}px) / ${days.length}) * 0.92)`;
 
   return (
     <div className="min-h-screen">
       <Header variant="timetable" />
 
-      {/* Sub-Header */}
       <div className="relative px-5 py-4 border-b flex items-center">
         <div>
           <button
@@ -127,10 +105,10 @@ const Timetable = ({setHasTimetable}) => {
                 onClick={handleClearClick}
                 className={`px-4 py-1 rounded text-white ${
                   isTimetableEmpty(tempTimetable)
-                    ? "bg-red-300 cursor-not-allowed" // disabled style
+                    ? "bg-red-300 cursor-not-allowed"
                     : "bg-red-500 hover:bg-red-600"
                 }`}
-                disabled={isTimetableEmpty(tempTimetable)} // disable button
+                disabled={isTimetableEmpty(tempTimetable)}
               >
                 Clear
               </button>
@@ -146,7 +124,6 @@ const Timetable = ({setHasTimetable}) => {
         </div>
       </div>
 
-      {/* Table */}
       <div className="mx-5 mt-6 border border-black">
         <table className="w-full text-sm text-center table-fixed h-full">
           <thead className="bg-gray-100">
@@ -176,11 +153,10 @@ const Timetable = ({setHasTimetable}) => {
               <tr
                 key={day}
                 className={!isEditing ? "hover:bg-gray-100" : ""}
-                style={{ height: rowHeight }}
+                style={{ height: "65px" }}
               >
                 <td className="border p-0.5 font-semibold bg-gray-50">{day}</td>
 
-                {/* Periods 1-4 */}
                 {timetable[dayIndex].slice(0, 4).map((_, periodIndex) => {
                   const cellData = isEditing
                     ? tempTimetable[dayIndex][periodIndex]
@@ -234,10 +210,8 @@ const Timetable = ({setHasTimetable}) => {
                   );
                 })}
 
-                {/* Break */}
                 <td className="border p-0.5 bg-gray-200"></td>
 
-                {/* Periods 5-8 */}
                 {timetable[dayIndex].slice(4).map((_, periodIndex) => {
                   const cellData = isEditing
                     ? tempTimetable[dayIndex][periodIndex + 4]
