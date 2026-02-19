@@ -1,7 +1,7 @@
-import React from "react"
-import { useNavigate } from "react-router-dom"
-import VisibilityIcon from "@mui/icons-material/Visibility"
-import logo from "../assets/logo.png"
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import logo from "../assets/logo.png";
 
 const Header = ({ variant = "home" }) => {
 
@@ -9,22 +9,28 @@ const Header = ({ variant = "home" }) => {
 
   return (
     <header className="bg-blue-500 shadow-lg">
-      <div className="flex items-center justify-between py-4 px-5">
+      <div className="flex flex-col md:flex-row items-center justify-between py-4 px-5">
 
-        {/* Logo + App Name */}
+        {/* Logo + App Name + Tagline */}
         <div
-          className="flex items-center space-x-3 cursor-pointer"
+          className="flex flex-col md:flex-row items-center md:space-x-3 cursor-pointer text-center md:text-left mb-3 md:mb-0"
           onClick={() => navigate("/")}
         >
-          <img src={logo} alt="Logo" className="w-14 h-14" />
-          <span className="text-3xl font-bold text-white leading-none">
-            WhatsNext
-          </span>
+          <div className="flex items-center space-x-3">
+            <img src={logo} alt="Logo" className="w-14 h-14" />
+            <div className="flex flex-col">
+              <span className="text-3xl font-bold text-white leading-none">
+                WhatsNext
+              </span>
+              <span className="text-sm text-white/80 mt-1">
+                Manage your weekly class schedule effortlessly
+              </span>
+            </div>
+          </div>
         </div>
 
         {variant === "home" && (
           <div className="flex items-center space-x-4">
-
             {/* Open Timetable button */}
             <button
               onClick={() => navigate("/timetable")}
@@ -33,12 +39,11 @@ const Header = ({ variant = "home" }) => {
               <VisibilityIcon sx={{ fontSize: 28 }} />
               <span className="ml-3 font-medium">Open Timetable</span>
             </button>
-
           </div>
         )}
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
