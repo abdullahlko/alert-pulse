@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import logo from "../assets/logo.png";
 
-const Header = ({ variant = "home" }) => {
-
-  const navigate = useNavigate()
+const Header = ({ showViewTimetableButton = false }) => {
+  const navigate = useNavigate();
 
   return (
     <header className="bg-blue-500 shadow-lg">
@@ -29,9 +28,9 @@ const Header = ({ variant = "home" }) => {
           </div>
         </div>
 
-        {variant === "home" && (
+        {/* "Open Timetable" button is shown only if the prop is true */}
+        {showViewTimetableButton && (
           <div className="flex items-center space-x-4">
-            {/* Open Timetable button */}
             <button
               onClick={() => navigate("/timetable")}
               className="flex items-center justify-center w-[230px] h-[46px] bg-white text-blue-500 rounded hover:bg-gray-100 transition"
