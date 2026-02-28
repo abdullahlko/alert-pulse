@@ -20,9 +20,10 @@ const Header = ({ showViewTimetableButton = false }) => {
             alt="Logo"
             className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0"
           />
-          <span className="text-base sm:text-2xl font-bold text-white tracking-tight">
-            TimetablePulse
-          </span>
+          <div className="flex flex-col">
+            <span className="text-base sm:text-2xl font-bold text-white tracking-tight">TimetablePulse</span>
+            <span className="text-[10px] sm:text-xs text-white/60 leading-tight">For Integral University, Lucknow</span>
+          </div>
         </div>
 
         {/* "Open Timetable" button is shown only if the prop is true */}
