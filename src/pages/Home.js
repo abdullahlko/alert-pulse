@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import ClassCard from "../Components/ClassCard";
 import Footer from "../Components/Footer";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SchoolIcon from "@mui/icons-material/School";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -29,8 +28,9 @@ const Home = () => {
     );
 
   // Determines which day's schedule should be shown
-  const todayIndex = new Date().getDay() === 0 ? 0 : new Date().getDay() - 1;
-  const todayRow = timetable[todayIndex] || [];
+  const isSunday = new Date().getDay() === 0;
+  const todayIndex = isSunday ? 0 : new Date().getDay() - 1;
+  const todayRow = !isSunday ? (timetable[todayIndex] || []) : [];
 
   // Keeps only periods that have subject or room filled
   const existingPeriods = todayRow
@@ -102,7 +102,6 @@ const Home = () => {
         const hrs = Math.floor(seconds / 3600);
         const mins = Math.floor((seconds % 3600) / 60);
         const secs = seconds % 60;
-        // Hours shown only if greater than 0, minutes and seconds are padded
         return `${hrs > 0 ? `${String(hrs).padStart(2, "0")}h ` : ""}${String(mins).padStart(2, "0")}m ${String(secs).padStart(2, "0")}s`;
       };
 
@@ -143,7 +142,6 @@ const Home = () => {
           <div>
             <p className="text-lg font-medium">No timetable data available.</p>
             <p className="text-sm mt-2">Please add your weekly timetable to get started.</p>
-            {/* Add Timetable button */}
             <button
               onClick={() => navigate("/timetable")}
               className="mt-4 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
@@ -152,6 +150,14 @@ const Home = () => {
             </button>
           </div>
         </div>
+
+      ) : isSunday ? (
+        /* Sunday state */
+        <div className="flex-1 flex flex-col items-center justify-center text-center px-6 py-8 gap-2 bg-white rounded-xl shadow-md">
+          <h2 className="text-2xl font-semibold text-gray-800">It’s Sunday!</h2>
+          <p className="text-lg text-gray-700">No classes today</p>
+        </div>
+
       ) : (
         <>
           {/* MOBILE HEADER - shown only when classes not completed */}
@@ -180,7 +186,6 @@ const Home = () => {
           {!isAllClassesCompleted && (
             <div className="hidden sm:flex px-5 py-6 border-b items-center justify-between relative mb-4">
               <div className="flex items-center text-sm font-medium text-gray-700 gap-1">
-                <CalendarTodayIcon fontSize="small" />
                 <span>{todayDate}</span>
               </div>
 
@@ -200,7 +205,7 @@ const Home = () => {
             </div>
           )}
 
-          {/* Class cards — shown only when classes not completed */}
+          {/* Class cards is shown only when classes not completed */}
           {!isAllClassesCompleted && (
             <div className="px-5 py-10 flex justify-center items-start gap-10 flex-wrap">
               <ClassCard
@@ -224,7 +229,7 @@ const Home = () => {
             </div>
           )}
 
-          {/* Countdown timer — shown only when classes not completed */}
+          {/* Countdown timer is shown only when classes not completed */}
           {!isAllClassesCompleted && timerText && (
             <div className="text-center my-6">
               <p className="text-sm text-gray-600">
