@@ -5,7 +5,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { days, periodTimes, periods } from "../constants/timetable";
 
 const BREAK_AFTER_PERIOD = 4; // break column to be inserted after period index 4 (between P4 and P5)
-const BREAK_TIME = "12:20 – 12:40";
 
 const Timetable = () => {
   const navigate = useNavigate();

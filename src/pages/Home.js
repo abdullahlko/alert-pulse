@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import ClassCard from "../Components/ClassCard";
 import Footer from "../Components/Footer";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SchoolIcon from "@mui/icons-material/School";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
