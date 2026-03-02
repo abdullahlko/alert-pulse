@@ -2,6 +2,7 @@ import './App.css'
 import { useState } from 'react'
 import Home from './pages/Home'
 import Timetable from './pages/Timetable'
+import Privacy from "./pages/Privacy";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -25,6 +26,7 @@ const [hasTimetable, setHasTimetable] = useState(() => {
       <Routes>
         <Route path="/" element={<Home hasTimetable={hasTimetable} />} />
         <Route path="/timetable" element={<Timetable setHasTimetable={setHasTimetable} />} />
+        <Route path="/privacy" element={<Privacy />} />
       </Routes>
     </BrowserRouter>
   )
